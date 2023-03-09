@@ -1,0 +1,2149 @@
+Basics Topics : 02210049100417   Addhar no : 412459675962
+
+Varaibles (let , const , var )
+loops , if , else
+arrow fucntion vs normal function
+array objects
+dom manipulation
+event handling 
+
+
+Advance Topics :
+
+this keyword vs lexical this
+closures
+map, filter , reduce 
+promise , callback
+async , await
+Named imports vs default imports
+Asynchronous function
+socket
+Web RTC 
+
+
+NOTES ::::   THAPPA TECHNICAL YOUTUBE CHANNELS 
+
+1.The Js is a client side scrripting lang
+2.Its Interpreted language (ie code is cheched line by line)
+3.Every Browserr contains the inbuilt  JS ENgine to run the js on it.
+4.The JS Engine first  parse the code -> convert it into Abstract Syntax Tree -> Then Code is converted to Machine level code --> And finally the code is executed to give output.(Refer thappa Technical Youtube channel)
+
+5.Excution Context. : It is the execution environment/area where the var,conts related to the function are placed.It get vanish as we are done with function.
+                      Every Time we call a new fucntion. Its get the new Execution stack.
+                      -Whereas  Global Execution stack is provided default , all var , fucntion declaration , etc are initallly placed in Global Stack.
+
+6.Execution Stack :  It space where various execution context are placed in LIFO order.
+                 - To check the working of the call stack / execution stack .
+                 -Create the index.js file in Inspect->Sources section and apply the debugges() in every function of code . 
+                  Then see the woking in Call-Stack (Global Exec stack is written there as anonymous )
+                  (Refer Video)
+
+___________________________________________________________
+7.Execution Stack has 3 properties
+    -Variable Object
+    -Scope chain 
+    -this variable
+
+  * Here variable Object creation :  includes the Hoisting mechanism. 
+                                    ( ie For fucntion declared in code : a property is created in variable object which points to function. 
+                                        Same for variable : variable declared globally in code are set to property of Object , and variables val is set to undefined.
+                                    )
+ 
+___________________________________________________________  
+
+8.Function Hoisting :  In comman terms we can say : 
+                    all fucntions defined anywhere are moved to starting of their scope .(Techically described above) basically func are binded to propery of variable Object and that propery points to function and understand/process them first even before executing the code.
+                       eg 
+       			When we call a fucntion before its defination , it also works in js. Possible by hoisting propery of js.(errro in C++ fucn can't be used without defining )
+                        The declaration of the function are moved to top of their scope during the creation phase of Execution Context .
+  
+	Exception : --> Hoisting does not work for fucntion defined inside parenethesis () ,
+            	  --> Also not work for expression fucntions.
+            	  --> Also not work in mordern fucntion.  like const sum=(a,b)=>{ add=a+b; console.log(add);  }
+
+  
+___________________________________________________________                           
+9.Variable Hoisting :   ( If global var are decalred , but no value is assiged , then its value is set to "undefined".  ----- This is normal )                         
+               
+          --> By  variable hoisting , if we are using a variable before its declarating or assignment , then its value is set to undefined even if its assigned a value at later stage in program .
+            eg.    console.log(a)
+                    var a=10;           //So output is undefined
+
+                  -this happen because , the ' var a' is global var and by variable-hoiting its moved to top line of its scope and its val is set to  "undefined" . So we console.log() it , ans is undefined. later when a=10 is assinged its value becomes as 10;
+           
+         Exception :--> Var hoisting not work with "let" , it gives Refernce Initialization error. 
+
+
+    EXERCISE  : PREDICT THE OUTPUT
+               <script>
+		 console.log("I am a "+ job);
+                   var job="Web Developer";
+                 console.log("I am a "+ job);
+
+           function  whoAmI()
+		{
+                 console.log("I am a "+ job);
+		var job="Full Stack Developer";
+ 		console.log("I am a "+ job);
+		
+		}
+              whoAmI();
+
+
+		</script>
+
+   Ans : 
+
+ 	I am a undefined
+        I am a Web Developer
+
+        I am a undefined     (as it moved to top scope inside the function space so undefined val by variable-hoisting )
+        I am a full Stack Developer
+
+
+ As in Global code , we find the var "job" first :  so its will be moved to top of code and val is set as undefined.  Later on val will be assigned to it.
+         In case of gloabal fucntion . The function defination will be moved to the top and it will be given the Execution Context (space) : and here the locally var job is moved to inside top scope , and later assingned value Full Stack to it.
+
+     
+
+
+___________________________________________________________
+
+10.SCOPE CHAIN AND LEXICAL CHAIN : 
+         --> Scope chain : It hepls to identify the values of the variable within the scope.
+Function 1 can check var in its scope only and in its parent (also the global). but not in other fucntion scope.
+           --Lexical Scoping menas child elements can use the variables of parent , but not vice versa              
+
+
+
+___________________________________________________________
+
+11. JavaScript is weird : Strict Mode in JS
+     -This feature is introducted in ECMA 5 
+     -"use strict"  inside the <script> tag
+
+     -It will not execute the code until errors are removed. 
+        If we use a var directly , without var keyword  , strict mode will give error.
+        If we give same paramenter name in fucntion() , then error.etc
+
+
+___________________________________________________________
+12. THIS keyword :   It refers to the current object . 
+                   eg1. if we simple write console.log(this);    // It gives  default "window" object of js .
+                   eg2. if we create a object and define a function in its properties , then it refer to particular object.
+ 
+                   
+console.log(this);    // It gives  default "window" object of js . 
+But when we use the strict-mode , this statement in normal function gives the "undefined" 
+
+  const thapa ={
+           name:"Shivam thapa",
+           class:"BTech",
+           sum:function(){
+		var add=2+2;
+              console.log("Sum of two no : "+ add);
+            
+               console.log(this);          // NOw its points to current obj ie  "thapa"
+
+}}
+thapa.sum();
+
+
+
+
+  Exception : Even inside the  object , if a proper function is defined and this is used, then it always refer to window , not current object.
+
+  eg 
+const thapa={
+ name:"vinod thapa",
+ qualif:"MCS",
+ sum : function(){
+              
+              console.log(this.name);
+              var add=2+2;
+              console.log("Sum of two no. is "+ add);
+              console.log(this);
+              
+        // Regularr function is defined here inside object. So this will always point to window gloabal object.
+           
+         function child()
+		{
+               var name="thapa";
+               console.log("child  method name"+ name);
+                console.log(this);
+                }
+             
+             child();                
+
+                }              
+
+}
+
+
+  Ans :  vinod thapa
+         sum of two no is 4 
+          {name:"vinod thapa", qualif:"MCS",sum:f}
+          child method name:thapa
+          window{....}          //*********   
+
+
+___________________________________________________________
+
+13. Types in JavaScript : 
+      Primitive : they contains the value (Boolean , Number  , String , Symbol , Null , Undefined)
+      NonPrimitive : which contains the reference (Object (fucntion , array etc ))
+
+
+  In JavaScript , every thing other than primitive data type  is a Object.
+Exception : 
+          --> When we check the type of   " var a = null; "   it gives the object type on  console . 
+          --> When we check the type of  " const check=()=>{} "  fucntion , it return the "fucntion" on console : but its actually an object. When can we verified by adding the property to the fucntion. (Refer Screen show 12_b)
+
+
+___________________________________________________________
+14. To prove whether object is array or not. We can use the  isArray() function.  (Referr img 12_c)
+                 eg const array=[1,2,3];
+                    console.log(array);
+                    const arrayobj={ 
+                       0: 1,
+                       1: 2,
+		       2: 3
+			 }
+
+           console.log(arrayobj);
+           console.log( typeof(array) );    // it gives   Object
+            console.log(Array.isArray(array));   //it gives true
+            console.log(Array.isArray(arrayobj));   //it gives false
+
+
+___________________________________________________________
+15. Pass by value  Vs Pass by Referrence 
+
+    - Pass by value is used for the primitive datatypes. eg  a=5; b=a;  b=b+2;  then changes will be independent . ie a=5, b=7 
+    -Pass by Reference : used for Object type :  the pointing address is shared with the new variable. So changes in one are also reflected in the other as well.
+                   
+          eg   const Obj1={ user:'shviam' , password:"abc"  }
+               const Obj2=Obj1;                                   //created by pass by reference
+               // now if we update the value
+                Obj2.password="timepass";
+
+               console.log(Obj1);    // user:shivam , password:timepass
+               console.log(Obj2);    //user:shviam , password : timepass      
+
+
+  -> Eg if we want to only modify the 1 array not the original, so to avoid referce passing , create a empty array and concat the empty string into it.
+            const arr1=[1,2,3];
+	    const arr2=[].concat(arr1);
+            Now changes will be made in single arr2.
+
+
+___________________________________________________________
+
+16. Project : TO find the typing speed.
+
+
+___________________________________________________________
+18. Callback Fucntion : This is a function which is to be executed after another fucntion has fininshed its executing.
+                        This is mostly used when we want to wait for loading of some component  in application , then want the other component to load. So order is not disturbed.
+
+                --> The callback  fucntion says that untill the current fucntion completes its execition , the next fucntion should wait for his turn.
+      --> This is implemented by passing the upcoming function in the argument of the current fucntion.
+
+eg 
+
+const perOne = (friend , callfrnd ) => {
+ console.log(`I am busy right now , I am talking to ${friend} .   I will call back you later. `);                
+ 
+  callfrnd();                // This is call-back fucntion, which will be executed after perOne() is completed. 
+  
+}
+ 
+const perTwo= () => {
+console.log(`Hey Whats up . I call you back later . I am second function`);
+}
+ 
+
+//Now while calling the function , we pass the next fucntion in its argument.
+
+perOne("SHIVAM" ,  perTwo );               //perTwo() is call back fucntion here.  & "SHIVAM" is the normal arguament of the function perOne()
+
+
+
+EXTRA :  FUNCTIONS is First Class Citizens.
+ 
+       Basically we have 3 features available with fucntions in JS
+  -> we can assing the fucntion to variable directly.   : anonymous function like
+  --> we can pass the fucntion as argument to another function   : callback fucntion
+  --> we have Returning fucntions.  : higher order fucntion.
+
+
+___________________________________________________________
+
+19. ANONYMOUS FUNCTION :
+
+       -->   A fucntion without name .
+       --> In JS we can directly assing the fucntion to the variable no need to give name to fucntion.
+            
+..Type 1 : anonymous function added to event listner.
+         document.addEventListner('click',function(){
+			  console.log("Thank You ");
+ 						} );
+..Type 2 : assigning the function to the variable .
+
+   let sum = function (a ,b){            //no name to the fucntion : so anonymous function
+ 		   let add= a+b;
+		  console.log(add);
+		}  
+   sum(5,5);
+               
+(Refer Ludo game video by Thappar Technical )
+
+
+
+___________________________________________________________
+
+20. HIGHER ORDER FUNCTION :
+
+              -->  It simply refers to function defination within onother function.
+              -->  Or function which return  other fucntion() in their return statement.
+
+ eg We have eg where main fucntion is returning another fucntion based on condition checks.
+The aim here is to provide the different Question to the differet candidates based on the argument passed in Higher Order fucntion.
+
+
+const interviewQuestions =(name) => {
+if(name== "vinod")
+{
+   return function (topic){
+
+          console.log(`Hi ${name}. What is ${topic}` . Plz explain this.);                                  
+			  }
+
+}
+
+
+if(name== "rahul")
+{
+   return function (topic){
+
+          console.log(`Hi ${name}. What is ${topic}` . Plz explain this.);                                  
+			  }
+
+}
+
+if(name== "Soni")
+{
+   return function (topic){
+
+          console.log(`Hi ${name}. What is ${topic}` . Plz explain this.);                                  
+			  }
+
+}
+else{
+ return fucntion(){        // anynmous fucntion  : without name
+console.log("Welcome to DashBoard , no user");
+}
+
+}
+
+}
+
+
+// NOW To call the higher order fucntion we can use the double parenthesis. method.
+Method 1 : 
+interviewQuestions("vinod")("UI");
+interviewQuestions("rahul")("Full Stack Developer");
+interviewQuestions("Soni")("Front End Developer");
+
+Method 2 :   Another way : first assign a fucn to var , then again call remaing fun with that variable.
+const cand1  = interviewQuestions("vinod");
+cand1("UX");
+cand1("Java");
+
+___________________________________________________________
+
+ 
+                        
+ 21. IIFE  (Immediately Invoked Function Expression . )   : a func() which invoked imediately as soon its defined . Or when we refresh the page.  
+                        
+--> Baiscally it means that defining the function inside the () - grouping operator , 
+    - so that its private and invoked every time And variable described inside it are protected.
+    -Its an independed function : no need to call this function.    
+  
+eg   
+ 	 ( 
+       function() {
+             var aName="thapa";
+            console.log('Author name is '+ aName );
+                 }   
+	  )();
+
+// we can also pass argument to the function :
+   
+         ( function(auth_name)
+         {
+            console.log('Author name is '+ aName );
+         }
+         )("Shivam Rai ");
+
+
+
+___________________________________________________________
+
+
+22. CLosure in Java Script. 
+
+   --  The CLosure and lexical scoping a little bit same. 
+   --  Both say that when the child , can access the variables /  parameter declared in parent fucntion. Then its call lexical scoping .
+   --  But in case of Closure , even if the Outer - function Execution Context (space) is removed from memory , as when we have return statement of outer fun as  the inner Function itself  .\
+   -- The closure stores the values of variables used of Outer function (like a in eg below ) in inner funcition in its memory and again when inner funtion is called it gives output from the stored memory . Even if outer function Execution Stack is fully removed.
+
+   var d=5;
+  const outerFun = (a) => {
+  let b= 10; 
+
+  const innerFun =  () => {
+   let sum = a+ b+d;
+   console.log(`the sum of two no. is ${sum}`);
+   }
+   return innerFun;                              // IMP STATEMENT , to make closure work.
+  }
+
+  let inner = outerFun(5);                       // Closure prop , says that when we have return statment of Outer function as innerfunction , the var used in outer function are kept in memory. And whenever the inner function (which  is returned) is called again , it delivers the output.
+  console.dir(inner);
+   
+
+  inner();                                     //Now only innner func will work , var d , and a are stored in memory by closure propery.
+  
+
+___________________________________________________________
+
+23. Exercie : Same concept of Higher Order function is executed here . Same function using closure  ( function + lexical environment )
+     Refer img 23_a , b 
+
+
+___________________________________________________________
+
+24.  CALL Method in JS : 
+                      --> This method provides the way in which one object can call the method present on another object with proper syntax. 
+                      
+                          Refer img. 24_a , b ,  c
+                        
+                        youtuber1.feature.call(youtuber2 , 5 , "subscribe ");              // Calling : This will work.
+
+				where youtube1 is another obj , feature is its props containing func , youtuber2 is fucntion which want to use the call/apply method to access the other object function.
+
+
+
+#code 
+ <script>
+ 
+const youtuber1 = {
+name:"ThapaTechnical";
+content:"Programming",
+feature : function(rating,support){                            //${this.name} feature came in 2015
+				
+	           console.log('very friendly way of teaching. ${this.name}' is my favourite ${this.content} channel 
+                               I will love to give ${rating} star . Please ${support} ${this.name} channel.
+                      );			
+			}   
+                    }
+
+// youtuber.feature(5,"subscribe");
+
+const youtuber2 = {
+name="kuchbhi",
+content:"progamming and Blog";
+
+}
+
+
+//Calling the functiion using call method. 
+youtuber1.feature.call(youtuber2,5,"subscribe");                //argument passed as seperately.
+
+//Calling the functiion using apply method. 
+youtuber1.feature.call(youtuber2,  [5,"subscribe"]   );      // argument passed in single array .
+
+</script>
+
+
+___________________________________________________________
+24. APPLY METHOD in  JS : 
+           
+                     --> Is same as the call method , ie used to call the function of another object .
+                    --> Only the arguments are passed as arrray  (not sperately .)
+
+                    eg calling will be like 
+                      youtuber1.feature.apply(youtuber2, [ 5, "subscribe"]  );
+
+ eg . To find max ele from array. Using apply method.  "This" field is kept null here.
+   let arrMax = Math.max.apply( null, [1,2,3,4,5,6]);
+   console.log(arrMax);  //6
+___________________________________________________________
+
+25. BIND method :  This method is used to bind the fucntion to the object. So it be easily used in futurre.
+
+
+  eg 
+ 
+const youtuber = {
+name:"ThapaTechnical";
+content:"Programming",
+feature : function(){
+	      console.log(`My Favourite name is ${this.name} . He made videos on ${this.content}  topics `);		
+			                               //Here this refer to current obj : youtuber1
+			}
+                 }
+
+ youtuber.feature();          // This will give the normal results.
+
+//Now trying to bind the function to the object. Using bind fucntion. Here we have binded the youtuberFun2 to the youtuber object.  
+
+let youtuberFun2 = youtuber.feature.bind(youtuber);                //The bind method takes an object as the first argument and creates the new function.
+youtuberFun2();
+
+
+
+eg 2 :
+
+const youtuber = {
+name:"ThapaTechnical";
+content:"Programming",
+}
+
+
+
+const youtuber = {
+name:"ThapaTechnical1";
+content:"Programming1",
+}
+
+
+
+
+const youtuber = {
+name:"ThapaTechnical2";
+content:"Programming2",
+}
+
+//Now we have the sepeate function , which we want to bind to all of these object , we can use the bind method.
+
+function feature( ratings ){
+	      console.log(`My Favourite name is ${this.name} .
+              He made videos on ${this.content}  topics 
+  	      I will love to give ${rating}  star rating.
+		`);					                             
+			}
+
+ //Using the bind function		
+
+// IMP :   //The bind method takes an object as the first argument and creates the new function.
+
+
+let you1=features.bind(youtuber);
+you1(5);
+
+//Similary we can also add the argument in fucntion along with adding it to variable./
+
+
+___________________________________________________________
+
+26. For each loop
+
+  var myFav=['Shivanm','is','my','name'];
+
+  //syntax of for each loop - we need to give call back fucntion in argument
+  
+  myFav.forEach(  function( arrValue, index ){
+   console.log( index +  " - " + arrValue );
+	});
+
+
+// Now if we want to update each value of the array with +100  , just also use the curr_obj in argument.
+  
+   myFav.forEach( function(val,  index ,  curr_obj ) {
+				
+						curr_obj[index]=val+100;
+					console.log(curr_obj[index]);	 
+ 						})
+
+___________________________________________________________
+
+27. For-of    loop    - for iterable objects  ( Arrays  ,  strings   )
+
+
+eg1.
+  var myFav=['Shivanm','is','my','name'];
+
+  
+  //Synatx 
+            for ( items of myFav )
+		{    console.log(items); 
+                 }
+
+eg2.  
+   To iterate over the sting
+  var str="Shivam Rai is my name";
+ 
+  for( items   of str  )
+  {
+   console.log(items+" - ");  
+ }
+___________________________________________________________
+
+28 . For - In Loops    - Ennumeration in JS  
+
+
+- ( Used when we want to loop thought  "properties " of  the objects)  
+- The way of accessing/counting the properties of the object (not value) is called enumeration.
+
+eg 
+   const bioData ={
+    name:"Shviam",
+    age : 26 ,
+    degree : "B.Tech"	
+
+   }
+
+   for( prop   in   bioData ) 
+   { console.log(prop);
+   }
+
+//Output will be   name  age  degree . 
+
+
+______________________________________________________________________________________________________________________
+
+______________________________________________________________________________________________________________________
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ 
+30. INTROUDCTION TO ECMASCRIPT-2015   / ES6
+
+
+-->  var  - support multiple declarating of same variable. like var name="Shiv"   , var name="Shivam"
+          - It has function scoped . It even variable defined inside the block {  } , can be used in whole function.
+
+
+--> let  - variable can be declareed once only.
+         -It has block scoped . Ie variable can be used with { block }  
+
+--> const  - Its has constant values  , and give error if we try to modify it ,  but no issue with  outside scope modification  
+
+
+ eg   var whoWinToday="India"
+      if(true)
+    {  
+        var whoWillWinToday ="NewZeland";
+         console.log(whoWillWinToday);  
+ 
+   }
+        console.log(whoWillWinToday);  
+
+//Output will be 
+               NewZeland
+               NewZeland           //THe var has fucntion scope (outside the block also ) , so it has modified the global variable also.
+
+
+ eg2   let whoWinToday="India"
+      if(true)
+    {  
+        let whoWillWinToday ="NewZeland";
+         console.log(whoWillWinToday);  
+ 
+   }
+        console.log(whoWillWinToday);  
+
+//Output will be 
+               NewZeland
+               India              // as let has block level scope. So global variable is not affected by block variable.
+
+_______________________________________________________________
+
+
+31. Template String  (Literals )   by using backtick `` (key below the Esc key)
+
+
+
+    let vill = "manpur";
+    console.log(`My name is shivam. I belong to raisen. My village is ${vill}  which is in District Raisen .`);
+    console.log(`My age is ${2023-2001}  year
+                I have just press Enter to go to next line with in the coding. ` )
+__________________________________
+32. Method of template strings.
+   let firstName="vinod";
+   let lastName="thapa";'
+    
+    const fname="${firstName}";
+    const fullName="${firstName}${lastName} ";
+
+   console.log(fname.startsWith('V'));                //false
+   console.log(fname.endsWith('d'));                  //ture
+   console.log(fname.includes('ino'));                //true
+   console.log(fullName.repeat(10));             
+__________________________________
+33.   Array Destructuring : 
+               
+ -->  Used to get the contents of array elememts easily. 
+ --> Destructing assignment is a  js expression that make it possible to unpack values from arrays,or propeties from obj into distinct variable.
+
+ let arr=['Java','Python','js','Go'];
+
+ let [top1,top2,top3,top4]=arr;
+
+ console.log(`The elements of array are ${top1} , ${top2} ,  ${top3} , ${top4}`)
+ 
+// Or we want to directly access the last ele and first element , we can skip the inbetween elements.
+
+let[top1,,,toplast]=arr;
+console.log(`The 1 element is   ${top1}  , and last element is  ${toplast} `);   //Output java  , Go
+
+__________________________________
+34. Object  Destructuring :     
+                             collecting the property of objets in sepearte variable.So we can directly use them without object variable.
+  const bioData = { 
+ 		name:"Shviam",
+		age:23,
+		degree:"B.tech"
+                obj: {
+			quality:"nice"
+			}
+                }
+
+// now object destructuring.
+//Original to access element we need to write       bioData.name
+ 
+let  {name , age, degree} = bioData;
+conosle.log(`My name is ${name}` . My age is  ${age} . My Highest qualification is '${degree}');
+
+//Or define like this inside  ()  . and we can also rename the properties.
+
+let name, age, degree;
+( {name : GOODname, age, degree } = bioData ); 
+
+
+conosle.log(`My name is ${GOODname}` . My age is  ${age} . My Highest qualification is '${degree}
+           Other ${obj.quality}
+           ');
+
+__________________________________
+35. Arrow Function in ES6:
+
+
+Normal Function : 
+
+var sum = function()
+{
+var a=10; var b=20;
+return a+b;
+}
+
+
+Arrow fucntion :    syntax  :   const sum = () => {  }
+//If we have 1 line code , then no need of return statment.
+
+const sum = () => {
+let a =10; 
+let b=20;
+return a+b;
+}
+
+sum();
+
+
+//  Or :       
+let a=10;
+let b=20;
+
+const sum=(x)  => {a+b+x; } 
+console.log(sum(100));                   // o/p:  130
+
+__________________________________
+
+36.Default Parameter in js .
+
+
+function muliphy(a , b = 1)         //Here we have given default parameter.
+{
+console.log(a*b);
+}
+multiphy(4);    // ans = 4;           // 2 argument not passed so default will be used.
+multiphy(4,2);  //ans = 8
+
+//Or  : In Flat arrow function
+
+const mult = (a,b=1)  => {
+console.log(`The product of two no is : ${a*b} `);
+}
+
+mult(5);    //Ans : 5
+
+
+__________________________________
+
+
+37. Rest Parameter(...par) in ES6 / ECMA Script 2015
+
+-It help to represent the infininte no of paramenter as an array.
+
+eg1.
+function sum (...inputs)
+{
+console.log(...inputs);            //Output  : 1,2,3,4,5,6,7
+
+					// we can use the for of loop to print content of array / because Rest parameter keep multiple paramentes  as arrray
+let total=0;
+for (let i of inputs)
+{
+total +=i;
+
+}
+console.log(total);
+}
+
+// calling the schemen
+sum(1,2,3,4,5,6,7);            
+
+
+
+eg2.
+
+function fun(a,b,...c)
+{
+console.log(`${a} and  ${b}`);                   // Ronaldo and Neymar
+console.log(c);                                    // { 'Pele','Messi','Edan'}
+console.log(c[0]);                                // Pele
+console.log(c.length); 			          //3		
+console.log(c.indexOf('Edan'));                   //0
+}
+fun('Ronaldo','Neymar','Pele','Messi','Edan');
+
+
+____________________________________
+
+
+
+38. Spread Operator in ES6  (...sop) :
+
+--  Both have same representation / syntax    ...c  => spread opearator and Rest Parameter.
+--But working is completely opp. then RestParameter. 
+
+-------
+  use-1. It replaces the apply() method.  
+
+function sum(a,b,c)
+{
+console.log(a+b+c);
+}
+
+var arrVal=[1,2,3];
+
+
+//Traditional es5 approch  , use apply(this , arrVal)
+//sum.apply(null, arrVal);  console.log(sum);    //6
+
+//Now we want to apply sum method to give sum of array elements so using spread operator.
+
+
+
+function sum(a,b,c)
+{
+console.log(a+b+c);
+}
+
+var arrVal=[1,2,3];
+
+sum(...arrVal);                           //USED SPREAD OPERATOR : to apply sum method on array ele.
+
+console.log(...arrVal);            //   1,2,3
+console.log( sum(...arrVal)  ) ;   // 6
+
+-----
+  use-2. It replced the concat method , to concat two array.
+
+let arr1=[1,2,3];
+let arr2=[4,5,6];
+
+//es5
+arr1= arr1.concat(arr2);
+
+//es6 : USED SPACE OPERATOR   ...
+arr1= [...arr1,...arr2];
+console.log(arr1);                 // 1,2,3,4,5,6
+
+
+
+-----
+  use-3  It replaced the copy method two array.
+
+* In traditional copy , the refernced array is also change upon making change in copy , so use spread opeator to make a copy.
+//es5
+
+let arr1=[1,2,3];
+let arr2= arr1;
+arr2.push(4,5);
+console.log(arr1);    //1,2,3,4,5
+console.log(arr2);    //1,2,3,4,5
+
+
+//es6
+
+let arr1=[1,2,3];
+let arr3=[7,8];
+
+let arr2=[...arr1,4,5 , ...arr3,9] ;          
+
+console.log(arr2);    //1,2,3,4,5,7,8,9
+console.log(arr1);    //1,2,3
+
+____________________________________
+
+
+39.  Math obj in ES6
+ 
+- use of trunc is to ignore no after the decimal point and show only left part of number.
+
+let number = -5.453;
+console.log(Math.trunc(number));   // -5
+console.log(Math.floor(number));   // -6 , floor gives the less number always
+console.log(Math.ceil(number));    // -5 it gives the top large value
+
+- use of sign function 
+let no1=4; let no2 = -5; let no3=0 ; let no4=-0; 
+console.log(Math.sign(no1));   //  1 
+console.log(Math.sign(no2));   // -1
+console.log(Math.sign(no3));   //  0 
+console.log(Math.sign(no4));   //  -0 
+
+____________________________________
+
+40. Exponentiation  Operator in ES6 
+
+  console.log(5**2);  //25            Math.pow(x,y); 
+
+____________________________________
+
+
+41. New Numbers and Global Methods in ES6
+
+
+#isFinite()
+
+-  console.log(Number.isFinite(5)  );              // true
+    console.log(Number.isFinite(-5)  );              // true
+    console.log(Number.isFinite(Infinity)  );        // false
+    console.log(Number.isFinite(NaN) );             //false
+
+#isNaN()
+
+-  NaN , it is used to check the content is not numeriacal value or not.
+
+    console.log(isNaN("Shivam"));   // true    , because its a string
+    console.log(isNaN(4));          //false      , it actually a number.
+
+ //Specical case of  Number object with isNaN fun with string input . 
+   let  num = "Shivam";
+  console.log( isNaN(num)  );     //true 
+  console.log( Number.isNaN(num) );    //false   ***     
+
+#Number.isInteger()
+ 
+- let num =5;  let num2 = 5.20;
+  console.log(Number.isInteger(num));    // true
+  console.log(Number.isInteger(num2));    // false
+ 
+________________________________________________________________________
+
+
+42.  CLASSES    ,   OBJECTS   , Inheritance.
+
+
+(Easy like Java concepts refer video)
+
+________________________________________________________________________
+
+
+
+43. Synchronous and ASYNCHRONOUS in JS
+
+
+-Synchronous refers to step by step processing. We can't process the next unitll the previous has done it work.
+ It has dependent nature.
+
+-In Asynchronous nature , we can do several process simultaneously. 
+  Its is independent in nature.
+
+
+ // Synchronous  eg :  Here everything will execute in flow in which they are called.
+ 
+const fun2= ()=>{
+console("I am function 2")
+} 
+
+const fun1=()=> {
+console.log("Fun 1 is starting ");
+
+fun2();
+
+console.log("Fun 1 is Ending ");
+}
+
+fun1();
+//Output :     Fun1 is starting
+                I am Function 2
+                Fun1 is Ending
+   
+
+
+// ASYNCHRONOUS  : Here it will not wait for timeout function to finish , and process the task simultaneously.
+
+const fun2= () => {
+
+setTimeout( () => {                              // This method help to show asynchronous nature , it no need to wait/stop here , continue execution of code.
+     console.log('fun2 is starting ');
+   } , 3000 );
+
+} 
+
+
+const fun1=()=> {
+console.log("Fun 1 is starting ");
+
+fun2();
+
+console.log("Fun 1 is Ending ");
+}
+
+fun1();
+//Output :     Fun1 is starting
+ 	       Fun1 is Ending
+   	       I am Function 2
+              
+________________________________________________________________________
+
+44. THE EVENT LOOP in JS
+
+    (refer image 35 a,b,c)
+- -  Its main work is to transfer the callback (done with waiting peried) from Message_Queue to Execution Stack after the waiting period is done.
+  
+- - What happen during asynchronous programming, when a setTimeOut function ( or DOM , AJAX ,API call etc ) is encountered , its transferred to the WebAPI section to continue itself and wait for timeout period and rest set of progeam continues its normal flow. 
+   When waiting period is over the function call is put into the message Queue . 
+   Which then though event loop process is transferred to Execution Stack for processing.
+
+
+
+________________________________________________________________________
+ 
+45. Callback hell  function :
+
+-- The code structure generated , by repetive calls of huge number of callback function . Which are dependent on each other.
+-- A slight incorrection in structure , can lead to the failure of all integrated calls.
+-- We use promises , to save ourself from Callback hell.
+
+
+eg To understand callback hell.
+
+Ques : Let the task is to fetch the details from the API (not acutally used , just print ) 
+        - After 2 second we need to display roll no.
+        -Then in next 2 second , display name and age,
+        -Then in next 2 second  display the gender.
+
+Sol: Here we are not using agax to fetch the details from the API . But creating temporry data to display. eg bio_data obj.
+
+--> We are going to use the setTimeout function to achieve this.
+
+
+const getRollNo= () ={
+
+		setTimeout(  () => {
+
+		console.log(`API  : getting Roll no : `);
+		let roll_no=[1,2,3,4,5];                 //                          //actually need to fetch the rollno from api
+
+//Task 2 
+
+ 			setTimeout( (roll_no)=> {
+
+                         	 const  bio_data ={                                            //actually need to fetch the bio_data from api
+                           	           name:'Shivam',    					
+					      age : 23,
+  						}
+						console.log(`My Roll no is  ${roll_no} . My name is ${bio_data.name} and I am ${bio_data.age} year old`);
+  					
+//Task 3
+                              			  setTimeout( ( name )=>  {
+                          			           bio_data.gender='male';
+                           			          console.log(`I am an alpha ${bio_data.gneder}`);
+
+							} , 2000 ,  bio_data.name  );   //End of Third callback
+
+
+				  } , 2000 , roll_no[1]);    //End of second callback
+
+
+
+},2000 );        //End of first callback
+
+}
+
+
+
+
+//calling main function
+
+getRollNo();
+
+________________________________________________________________________
+
+VERY -  VERY IMPORTANT TOPICS ::::::::::::::::::::
+________________________________________________________________________
+ 
+46.  Promises in JS 
+
+
+-- They are for solving the problem of callback hell(ie repetive hell like structure of code to call various setTimeout()  inside one another to perform task of fetching data) . 
+-- Stages in Promises 
+           -Pending :      the func is in process
+           -resolve :     fullfilled task (success)
+           -reject   :      task is not completed. (error)
+
+
+- Structure of the Promise
+
+const pobj1 = new Promise(  (resolve , reject ) => {} );
+
+
+* In promise we need to pass the "executor function" , and within it two arguments of resolve(success) and reject(fail)
+
+
+// Lets do the above taks (discussed in CallBack hell) of fetching details from the api  with in interval. Fetch rollno in first after 2 sec ,   then after 2 sec  name and age of selected particular no.
+
+  
+ -First we will create the Promise Object and pass the executor function with "resolve and reject"  argument in it .
+ - Now inside this we will create the setTimeout()   , and will generate the array/fetch from api.
+ - Now we will consume the result of this promise using resolve   ie resolve(roll_no) here we have passed the fetched roll_no And we can do whatever we want with this in pObj.then() method in next step.
+ -Now make a call to then() method with promise object to handle the resolve / success condition using then() .
+ - Now if in case the errors comes , then we will catch it in by attching the method to then(()=>{   }).catch(  ()={} );
+ 
+
+#code ::::::::::: 1. Promises as constructor :
+ 
+// => Promise generate
+
+const pObj =   new Promise(  (resolve ,  reject ) => {
+   
+   setTimeout( ()=>{
+		let roll_no=[1,2,3,4,5];        //or fetch using api
+		  
+                 resolve(roll_no);   
+                 //reject(`Error while communicating`);               
+ 		 } ,2000);
+
+ 	} )
+
+  // handle the resolve using then()
+// =>Promise consume
+      
+pObj.then( (rollno)=> {
+              
+              console.log(rollno);
+	                    
+       	       }).catch( (error)=>{
+                   		 console.log(error);
+     		                 } );
+
+
+
+#Same code ::::::::::: 2. Promises as obj  : used when we return the promise as object
+-Here we are executing the task that after next 2 second we need to display the name and age of particular roll_no[].
+-Now since this functionality will fetch the data after 2 second of 1 promise , we need to call the 2 method getBioData in the then() of 1 promise.
+-    ..... Now here in call of fucntion getBioData , in its then method we are getting the  resutls of its promise.
+Or shortcut... just return getBioData() & Write the then method of 2 promise after the then method of 1 promise. (Like below.)
+ 
+CONCLUSION : 
+
+
+* Basically ,  we can create the promise in two way , either as constuctor (step 1 ) or as Object returing promise (step2)
+* While creating promise we need to pass the executor function , which take two parameter resolve and reject. We can use resolve to give success feedback and reject to give failure feedback.
+* Now the results of resolve / success is collected using then() method and failure/reject is taken in catch(). 
+
+
+
+
+//Promise generate
+  const pObj =   new Promise(  (resolve ,  reject ) => {      //STEP 1 : Promise as constuctor
+   
+   setTimeout( ()=>{
+		let roll_no=[1,2,3,4,5];        //or fetch using api
+		  
+                 resolve(roll_no);   
+                 //reject(`Error while communicating`);               
+ 		 } ,2000);
+
+ 	} )
+
+
+//Defining the method getBioData() to fetch the details , to be called from the then() of 1 promise.
+
+
+const getBioData  =  (indexData) =>  {
+return   new Promise( (resolve ,  reject ) =>{              //STEP 2  Promise as Object
+
+
+setTimeout( (indexData)=>{
+  
+  let bioData = {                        // we have taken dummy data, actually need to fetch it from the api.
+         name: 'vinod',
+         age :26
+	}
+       
+resolve(`My roll no is ${indexData}.
+        My name is ${bioData.name}.
+        I am ${bioData.age} years old.
+        `);
+
+
+}  ,2000, indexData );              //   A. This 3 parameter is passes when we call the fun ,  and its values will be used by callback()  func  "indexData" variable to execute the program to fetch details(name and age) of this roll_NO student.
+
+
+} )
+
+
+
+}
+
+
+//Promise consume
+      pObj.then( (rollno)=> {
+              
+                         console.log(rollno);
+	       
+                                                    //calling the method of call the 2 promise , passing the roll no from here , will be collected in 'indexdata' argument of getBiodata method 
+                         return  getBioData(rollno[1]);
+                                      
+	                } ).then ( (kuchbhi) => {              //This then method is to handle the success of 2 promise (ie by calling the getBioData).
+                                     console.log(kuchbhi);
+                             } )
+                             
+       	     }).catch( (error)=>{
+                   		 console.log(error);
+     		                 } );
+
+
+SO the problem of callback hell , it the unorganised repetive calls  are structured into organised promise , then , catch  format.
+But here also we have one problem that , while consuming promise we need to call repetive then() , catch() etc So it will be removed by using Async await functionality.
+
+
+_______________________________________________________________________
+
+47. ASYNC AWAIT:         launced in 2019 ECMA version.
+
+- It main task was to easy the consumption of promises . (Ie to remove the recusive use of then()  method used.)
+
+
+
+-- Just copying the data of promises and commenting out the then() part.
+
+
+
+let pObject = new Promise( (resolve, reject) => {
+
+    setTimeout( ()=>{
+        let roll_no=[1,2,3,4,5];
+        resolve(roll_no);    //passing the success with roll no.    
+    } ,2000);
+    
+} );
+
+//defining the method
+
+const getbioData = (myRoll) => {
+
+    return new Promise(  (resolve,reject) =>{  
+    setTimeout(  (myRoll)=>{
+
+       let  biodata={
+             name:"Shivam",
+             age: 25
+         }
+
+        resolve(`My roll No is ${myRoll}. 
+            My name is ${biodata.name}
+            I am ${biodata.age} years old.`);
+       
+     } ,2000, myRoll );
+    
+    } ); 
+
+    
+}
+
+// NEW CODE with Async Await.
+
+* The idea is that  we just add the async method , which does not return any data  , but return the promise in the object of Promise.
+* we add the await condition before the object , so it wait till the data in pobj has arrived.
+* Then we collect the data of onj in variable.
+
+
+
+async function getData(){
+
+const rollnodata= await pobj1;
+console.log(rollnodata);
+
+const bioDatas = await getbioData(rollnodata[1]);                // make sure to keep this field name as obj name which is fetched in previous call other wise error will come.
+console.log(bioDatas);
+
+//.continue this for as many obj you want.
+
+     //return biodatas;
+}
+
+getData();
+
+//Now to collect the data to use it for futher states we can add return statemtent in getData func and collect the output of fun in a variable.
+//  const getname= getData().then(  (myname)=> { console.log(name);})
+
+
+
+
+/*           ============================
+// OLD CODE
+//consuming promise
+
+pObject.then( (rollno)=>{
+
+     console.log("Prining all the rolls : "+rollno);
+
+    return getbioData(rollno[0]);
+
+    
+} ).then(  (timepass)=>{
+          console.log(timepass);
+    
+}        
+).catch( (error) => {
+
+    console.log('The error has come');
+    
+});
+
+
+========================================
+*/
+
+48.  Fetch API method 
+
+<p id="data"></p>
+
+<script>
+
+fetch('https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies.json')
+.then( (apidata)=> {
+     //console.log(apidata);     // abnormal data
+     return apidata.json();
+  })
+.then( (actualdata)=>{                
+
+console.log(actualdata);         // json formated data
+
+//Printing data according to sequence seen on console. Since on console we are reflected with array list of movies[ 'title' , cast[  actors names in movies]  ,  generes[ categories movie belongs to]  ]
+
+
+//
+for(let i=0;i<28795;i++)
+{
+let ind=i;
+console.log(actualdata[ind]);
+
+console.log("TITLE :" + actualdata[ind].title);
+console.log("GENERS :" +  actualdata[ind].genres);//catery
+console.log("CASTS :" + actualdata[ind].cast);    //heroes
+
+
+const mydata =  actualdata[i].title;
+document.getElementById('data').innerHTML = mydata;  //setting data in div element to show on screen , only last movie titlt will be displayed , 
+}
+
+
+
+} )
+.catch((error)=>{
+
+console.log(`It gives error : " + ${error}`);
+})
+
+
+</script>
+
+
+_______________________________________________________________________
+
+******
+
+*   DOM playlist by Kishori Tutorials
+
+ - Document  Object  MOdel 
+ - Document refers to the  browser-screen / object in which we define contents of tags like   <html> , <head> , <body> , <p > etc
+ - Object refers to the tags eg  <html>  <br> etc
+ - Model structure generated  (Tree like format (refer image on goolge dom tree model structure )  ) generated by writing the code
+
+* Finding html elements 
+   -document.getElementbyId;
+   -ClassName;
+   -tagName;
+   -by CSS selectors   
+
+______________________
+
+1- getElementById   - to get particular element selected by id
+  
+   let header = document.getElementById('header');
+   console.log(header);
+
+______________________
+
+2- getElementsByTagName  - to target particular tags of html eg   <body> , <head> , etc 
+        
+    
+   let heading = document.getElementsByTagName('h1')[2];   //This return the collection so we need to use the [index]
+   console.log(heading);
+     
+ Eg: if we want to target the element <p> inside the <header id="header"> </header> tag.
+      let header = document.getElementById("header");  
+      let 1para = header.getElementsByTagName("p")[0];          
+      console.log(1para);
+
+______________________
+
+3-  getElementsByClassName  - it also return the collection of the classes.
+     
+      let header = document.getElementsByClassName("flower mt-5")[0];          
+      console.log(header);
+   
+
+**************       IMP       ********************* 
+______________________
+
+4-  document.querySelector()  - It by-default only return the single output of 1 occurence of chosen element  Or use querySelectorAll() to get all elements.
+
+     -> It can access all  , #id ,  .class , header ,
+      eg
+       let header = document.queryselector('h1');    or let he = document.queryselector('h1[href]');
+       let cls = document.queyselector('.container.mt-5');
+       let div_id= document.queryselector('#div');
+
+______________________
+5. document.querySelectorAll()  - It return the list of choosen elements.
+
+  
+*To select the list of elements use 
+     
+    let lsts = document.querySelectorAll('a');
+    let l1= document.querySelectorAll('a')[0];      
+
+*To select the particular tags within the inside of other tags  (solving problem of internal tag selection in seperate steps)
+ 
+   let p_cont = document.querySelectorAll('#container p ') ;   //It will choose the all paragarphs of container id. 
+
+
+______________________
+6. Contents of Web page
+
+   <script>
+      let doc = document.all;                  // It gives the contents of all the document object (full content of web page) like <html>,<head>,<title>.,....
+      console.log(doc);
+
+     let title = document.title;            //etc we can directly access them
+     let images = document.img[2];         // gives the 3 image in web page.
+
+
+      let doc= document;
+      console.dir(doc);
+
+   </script>
+
+______________________
+7. get dom values.
+
+: innerHTML
+    let header = document.querySelector("#articles").innerHTML;
+    
+ : innerText
+     let header = document.querySelector("header").innerText;
+ 
+ : getAttribute : its give the only value of attribute.
+      attributes eg id="" , href="" , class=""  and values  are feed in them.
+    let classTemp = document.querySelector('#header').getAttribute('class');    // o/p  :  container text-center mt-5
+    
+: getAttributeNode :  it gives both the name of attribute and its values eg 
+     let classTemp = document.querySelector('#header').getAttributeNode('class');   // o/p :  class: "container text-center mt-5"
+       
+
+ : attributes  :  it simply fetch the all attributes of give element.
+      let ele = document.querySelector('#header').attributes;            //  {0: id , 1: class ,  }
+      let ele = document.querySelector('#header').attributes[0];                        // id="header"
+      let ele = document.querySelector('#header').attributes[0].name;           // id   
+     let ele = document.querySelector('#header').attributes['class'].value;           // text-center
+
+ 
+
+______________________    
+8. set dom values .  // Dynamically setting the values
+  
+  //To change the heading : select the particular ele by going to it.
+ 
+  let h = document.querySelector('#header  .container .row div div ')
+  h.innerHTML = '<h5> This is updated Heading </h5>' ; 
+
+
+  // To set the attribute , with updated values. Go to requested ele then change it.
+  
+  let h = document.querySelector('#header a');
+  h.setAttribute('class','btn btn-info btn-lg');                  // we are changing button to large size
+
+Or Other method (not used)::::::
+
+  let h= document.querySelector('#header a');
+   let a = h.attribute[0].value='www.kishroi.com'
+
+  // To remove the class / id from any element
+   
+   let h= document.querySelector('#header a');
+    h.removeAttribute('class');                              // so btn classes will  be removed from there
+
+
+______________________
+9.  style properties in dom . 
+
+
+* To change the heading related style properties .
+
+  <script>
+            let h = document.querySelector('header h1');
+            h.style.backgroundColor='red';
+            h.style.color='white';
+            h.style.paddingTop='30px';
+            console.log(h);
+
+  </script>   
+
+*  Now if we want to apply the given properties to all the <a> elements, we need to use the Query Selector and then finally use the for loop to set property in each element. 
+
+ 
+  let h = document.querySelectorAll('a');          // or any other ele like    (form input)  : it will make all form inputs field red color
+  
+  h.forEach(  function(data){
+  
+  data.style.backgroundColor='red';
+  data.style.color='white';
+  
+  } );
+  console.log(h);
+    
+______________________
+10 . USe of className   : to add more classes to the element.
+      
+  let h =  document.querySelector('header');
+  console.log( h.className );
+  let a = h.className= 'headersection text-center py-5 bg-danger';
+  console.log(a);
+  
+
+Another eg . If we are given the articles id and .col-4 classes there , so to add all  the columns there. 
+
+  let h = document.querySelectorAll('#articles .col-4');
+  h.forEach( function(data){
+  data.style.padding='30px';
+  data.className='col-4 bg-warning';
+  })
+
+______________________
+
+11.  classList   and its functions  item , add, remove , replace , length , contains , toggle
+
+-Get list of all class attached    
+  let f = document.querySelector('form input').classList;                // Its will give all clasess list .   [ text-center ,  bg-dark etc ]
+
+- Add specific class to element targeted  in 'f' 
+  f.add('bg-dark','btn btn-lg');
+
+- To get class attacehed at specific postition in list given by classList
+  console.log(f[0]); Or  console.log(f.item(0));
+
+- To remove classes 
+  f.remove('bg-danger', 'btn-lg'); 
+
+- let a = f.length;    // gives the no of classes in element.
+
+-To check the class present or not
+  f.contains('bg-dark') ;            //true
+
+-To toggle color on  oinclick event.
+  
+   <input onclick="changecolor()">
+   
+   const changecolor= function(){
+   
+   let f = document.querySelector('form input');
+   f.toggle('bg-warning');                       //It basically add - removes the color onclicking button.
+
+   }  
+
+______________________
+
+12. addEventListner 
+
+    <a  onClick="changeBackground()">  Click Me </a>   // Or we can also add this onClick event from js line  by btn.onclick=changeBackground;
+ 
+    
+   <script>
+
+     let  header = doucment.querySelector('header'); 
+     
+         const changeBackground=()=>{
+           header.style.backgroundColor='orange';
+          } 
+           
+    Or Method 2 .   Dont write onclick on <a> tag instead  attach the event from the js itself.
+        
+         let btn = document.querySelector('header a');
+         const changeBackground=()=>{
+           header.style.backgroundColor='orange';
+          } 
+          btn.onclick = changeBackground;        (Not used much , not support the multiple handling)
+     Or          
+
+  USING  ADDEVENTLISTNER  :::  
+  
+         let btn = document.querySelector('header a');
+         const changeBackground=()=>{
+           header.style.backgroundColor='orange';
+          } 
+           
+         ***************************
+         btn.addEventListner('click' ,  changeBackround);              Or          btn.addEventListner('click' ,  function(){ ..... .});
+
+  
+   </script> 
+
+
+
+
+______________________
+
+13.   event bubbling and event capturing
+
+   Features of  addEventListner :   it capable of handling   
+
+i) one element , one event , multiple functions  eg 
+  
+  let btn = document.querySelector('header a');
+  
+  const changeBackground= () => {
+   console.log('Change background is running ');
+  }
+
+  const changeTextColor = () => {
+  console.log('Change the text color here '); 
+  }
+
+   btn.addEventListner('click',changeBackground);
+   btn.addEventListner('click', changeTextColor);
+
+__________
+
+ii) one element , multiple event , one function 
+   
+  btn.addEventListner('click', changeBackground);
+  btn.addEventListner('mouseover' , changeBackground);
+
+
+______________________
+
+
+    event bubbling and event capturing
+(Inner to Outer processing)
+==> Event bubbling : refers to series of event which are generated , when we click the child element , it associated parent and grandparent will also run ther.
+ 
+<div class="grandparent">
+	<div class="parent">
+		<div class="child">
+		</div>
+	</div>
+</div>
+
+let mygrandparent= document.querySelector('.grandparent');
+let myparent= document.querySelector('.parent');
+let mychild= document.querySelector('.child');
+
+
+mygrandparent.addEventListener('click',function(){ console.log('I am gradparent');  } );
+myparent.addEventListener('click',function(){ console.log('I am parent');  } );
+mychild.addEventListener('click',function(){ console.log('I am child');  } );
+
+
+//Here when we click on the child element , by defalut all it above parent will run.  This is called event bubbling.
+
+(OUter to Innser Processing)
+==> Event Capturing : Here its opposite of EventBubbling , and can be seen by passing the 3 parameter in the  addEventListner function.
+
+-It basically process the event from outer to inner way .      Eg if we click the child element , then on console . First of all grandparent will run , then parent will run , then followed by lastly child.
+-If we clikc on parent element, Then first grandparent , then only the parent will run.
+
+eg
+
+
+
+<div class="grandparent">
+	<div class="parent">
+		<div class="child">
+		</div>
+	</div>
+</div>
+
+let mygrandparent= document.querySelector('.grandparent');
+let myparent= document.querySelector('.parent');
+let mychild= document.querySelector('.child');
+
+
+mygrandparent.addEventListener('click',function(){ console.log('I am gradparent');  } , true  );
+myparent.addEventListener('click',function(){ console.log('I am parent');  } , true  );
+mychild.addEventListener('click',function(){ console.log('I am child');  } , true   );
+
+
+_________________________
+
+14. removeEventListener
+
+    btn.removeEventListner('click',changeBackground);   //Now previous listner of btn will not work. So no change in background color.
+
+ //We can also seperatly make a new button to remove the color set in background and adding eventListener to it.
+ First define a button in html code and then target it in script tag to remove the bg-color   
+
+  let removeBtn = document.querySelector('header button');
+  const removeBackground = ()=> { header.style.backgroundColor = 'transparent';  }
+
+____________________________
+
+15  .  parentElement & parentNode etc       -  HTML dom Traversal properties.
+
+  -Both have same work , ie to give the parent element of the chosen ele.
+  -But when we select top most node. eg html tag. Then  parent element gives null , whereas parentNode give the document object.
+
+   let h1 = document.querySeletor('body');
+   let getParent= h1.parentElement;             // html
+   let gerPareent= h1.parentNode;               // html
+  
+but differenece
+
+    let h1 = document.querySeletor('html');
+   let getParent= h1.parentElement;             // null
+   let gerPareent= h1.parentNode;               // document
+
+
+____________________________
+  
+16.  children and child nodes.
+
+--> To find the childrens of the particular element (It only show the the active elements , not spacings, enterkey used , comments etc ). 
+
+    let articles = document.querySelector('#articles .row');
+    let children = articles.children[1].style.backgroundColor='red';
+    console.log(children);
+
+
+
+--> Where as the children nodes return the list of all the children of a elements.
+   -It all includes the text-nodes , div.col-4 , comments etc.
+
+(Basically in 1 video we learn't about the nodes , attributes , values etc )
+Here add one more thing,  The space we give between tags , or Enter key , or comments we put are all stored as the text node . So they are also shown we see the list of Child Nodes.
+ 
+    let articles = document.querySelector('#articles .row');
+    let children = articles.childNodes;
+    console.log(children);
+
+
+// o/p:    { text, div.col-4 , comments , text, div.col-4  .,....}
+
+
+_______________________________________
+
+17.  firstChild, firstElementChild , lastChild , lastElementChild
+
+eg. 
+    - firstElementChild and LastElementChild  just return the respective html element , they dont consider the space (black portion between tags) , comments etc 
+      whereas the firstChild and lastChild consider all elements including space(blank space between tags), enter , comment used in code.
+
+     let articles = document.querySelector('#articles .row .bk');  
+     let findChildren = articles.firtElementChild();  // output:   <h1>Articles 1 </h1>
+      
+     let findChildrenNode = articles.firstChild();   //output :   #text   (since we have first used enter then return the h1 tag)
+
+Similarly for lastElementChild and lastChild
+
+_______________________________________
+
+
+  
+18. nextSibbling  ,nextElementSibbling , previousSibbling ,previousElementSibbling
+
+
+-It also  behave in same way . ie nextElementSibbling and previousElementSibbling work on the tags active elements. whereas other two also work on  comment elements , text(blank space between tags), Refer the data section of #text to see why blank is comming , we have pressed enter key / spaces etc to make look of html file better
+
+eg Let suppose we are seleccting the elements and then can se the next and previous elements of it using this.
+
+    let flower = document.querySelector('#flower .container .row .col-2:nth-child(2)');   //accessing the 2 child.
+
+    let left_flower = flower.previousElementSibbling;
+     letf_flower.style.border='1px solid red';
+
+
+    let right_flower = flower.nextSibbling;        // nextSibbling used :  It will give error if after the "2 col" , we have used blank space or enter . As no element will be selected.
+     letf_flower.style.border='1px solid red';     //To make it work just remove the spaces , to target the next col after col-2
+
+_______________________________________
+
+
+19.  createElement , createTextNode , createComment , appendChild
+
+-They are used to daynamically create element from the js and show them on html pages.
+
+
+eg Let suppose we want to give the heading h4 in every images underr the #flower id .
+
+- So first create the heading element, create the textNode , append the textNode into heading 
+- Then fetch the element of flower , and append this modified h4 in it.
+-Now we also need to use the forEach loop to get this applied on each image.
+
+   //let h4= document.createElement('h4');
+   //let textin= document.createTextNode('I am flower');
+   
+   h4.appendChild(text);
+   
+   let flower = document.querySelectorAll('#flower .col-2');   // using querySelectorAll to get list of all col containing image of flower.
+
+    flower.forEach( (columns) => {
+      
+      let h4= document.createElement('h4');
+      let textin= document.createTextNode('I am flower');
+   
+    console.log(columns);
+    columns.appendChild(h4);        
+ 
+    }
+
+    );
+      
+* In appendChild what ever element we add , it gets added to last of selected element. (ie heading will be applied after img tags )
+
+   Refer Youtube Kishori Tutorials Dom playlist Video 19     
+
+    
+
+_______________________________________
+
+20.  Insert Before : 
+
+ -It overcome the limitation of append child.(which alwayts add the element at tha last)
+
+  its synatax is  
+                 parentelement.insertBefore('ele to be inserted ', 'parent.position of another ele' );
+
+eg 
+   Let suppose the flowers are present in col2 classes under the #flower id. So first of all selec the parent - element
+  
+  let col2= document.querySelector('#flower .col-2');
+  
+   let h4 = docuemnt.createElement('h4');
+   let text= document.createTextNode('I am Flower ');
+   
+   h4.appendChild(text);
+   
+   col2.insertBefore( h4 ,  col2.children[1]  );
+   
+   ____
+
+  Or directly we can add before the selected ele
+  let h1= document.querySelector('#flower h1');
+  col2.insertBefore( h4 , h1 );                 //so it will insert the h4 before the h1 inside the flower id area
+
+_______________________________________
+
+21. insertAdjacent methods          (insertAdjacentElement , insertAdjacentHTML , insertAdjacentText )
+
+ 
+-Let suppose we want  to add the another heading , in the articles section. So we can do this at four positions.
+
+ beforebegin  - just even before starting of the element.
+ afterbegin   - inside the element at the 1 inner-ele
+ beforeend     - inside the element at the last inner-element.
+ afterend      - outside the element  , next to it.
+
+eg. 
+
+ let bg = document.querySelector('#articles .bg');
+ bg.style.backgroundColor='orange';
+ let h2= document.createElement('h2');
+ let mytext= document.createTextNode('Adjacent Heading ');
+ h2.appendChild(myText); 
+
+ bg.insertAdjacentElement(  'afterend' , h2);     //or can try other positions as well . beforeend, afterbegin, beforebegin
+
+Or more easiy use ***********
+______________
+METHOD 2 : 
+
+ let newtext=  `<h2>New Heading </h2>  `;
+ bg.insertAdjacentHTML(  'afterend' , h2);          // or can use text method , if want to use it.
+
+
+-Next video content 
+
+************
+
+ Now if you want to modify the existing element position. Just fetch them , and provide the position to insert them.
+
+So to put the paragraph before heading.
+eg . We want to move the paragraph to the top position inside the box, so heading will be automatically be second.
+
+//Select the box using its class
+let bg= docuemnt.querySeletor('#articles .bg');
+bg.sytle.backgroundColor='orange';
+//fetch the paragraph
+
+let p = document.querySelector('#articles p');
+bg.insertAdjacentElement('afterbegin' , p);          // insert p  at the start position of bg class.
+
+_______________________________________
+ 
+22. Replace Child and Remove Child
+
+-Useful when we want to change the elements dyamically eg remove the button and show paragraph there.
+
+*** Replace ::
+
+-create the component to put.
+let h2= document.createElement('h2');
+let text= document.createTextNode('New Heading ');
+h2.appendChild(text);
+
+-fetch the component to replace
+let h1= document.querySelector('#articles h1');
+
+
+-call method
+bg.replaceChild( h2, h1  );   //replcae the old child h1 with new h2
+
+
+*** Remove ::  just remove the child
+
+eg To remove the paragarph from the box   containing  (heading , paragaph , button ) we can use 
+
+let bg= docuemnt.querySeletor('#articles .bg');             //It fetches the box
+let r = bg.children[1];
+
+//now call method
+bg.remove(r);
+
+
+
+
+_______________________________________
+ 
+
+ THE END *********************************************************
+
+_______________________________________
+ _______________________________________
+ _______________________________________
+ _______________________________________
+ _______________________________________
+ _______________________________________
+ _______________________________________
+ _______________________________________
+ _______________________________________
+ 
+
+
+
+________________________________
+
+
+BASICS  JAVASCRIPT BY LearnCodeWith Durgesh
+
+
+//alert(" \"alert\" Dialog box of alert will appear");
+// window.alert(" \"Window.alert\"  alert to check js is working ");
+//confirm("Close the page");   //Returns true or false
+// console.log("  \"Console.log\" display the content on console at background");
+
+
+document.write("<h4>External js file  : \"br tag\" is used to break line   .</h4>");
+document.write("<br>");
+
+document.write("1.Prompt Taking input from the user","<br>");
+
+// var name=prompt("Enter Name User : Prompt fucntion  :");
+
+document.write(`2. User ${name}  - printed dynamic value using "backticks" above TAB   `);
+
+document.write("<br>3.Targeting the html element to insert dynamic content using document.getElementById: ","<br>");
+document.getElementById("first").innerHTML="<h3>Hi im inside the body tag</h3>";
+
+
+var a='Shivam Rai is my name';
+document.write("4. \"typeof()\" function  = " + typeof(a),"<br>");
+// document.write(a.charAt(1),"<br>");
+// document.write(a.substring(1,4),"<br>");
+
+document.write("5.Datatype in Js 1.Number , 2.String  , 3.Boolean  , 4.Object ","<br>");
+
+document.write("6. Object data type in Js using   : var obj={'name':'Shivam' ,'caste':'obc','age':12}  "  , "<br>" );
+
+var obj={'name':'Shivam' ,'caste':'obc','age':12}
+
+
+// document.write(typeof(obj),"<br>");
+// document.write( "Printing name field of Obj : "+ obj['name'] ,"<br>");
+
+
+document.write("7.Array(Object datatype) in Js - using  : var arr=[20,30,40,50];  ","<br>");
+var arr=[20,30,40,50];
+
+
+document.write("8.Loopings in js for, while , do while  ", " :: Also break ,continue :: " ,"<br>");
+
+
+//FOR LOOP
+
+// var sum=0;
+// for(let i=0;i<arr.length;i++)
+// {
+// sum+=arr[i];
+// }
+// document.write("Sum using for loop : ",sum,"<br>")
+
+
+//WHILE LOOP   : entry controller loop
+
+// var names=["Shivam","Rohit","Shantanu"];
+// let n=names.length;
+// let i=0;
+
+// while(i<n)
+// {
+//     document.write(names[i]," .. "," <br> ")
+//     i++;
+// }
+
+//DO WHILE :  exit control loop: 
+// do{
+//     document.write(names[i]," .. "," <br> ")
+//          i++;
+// }while(i<n);
+
+document.write("9.Function in JS  ","<br>");
+
+// function sum(a,b)
+// {
+//     return a+b;
+// }
+// document.write("Sum fucntion gives " , sum(5,5),"<br>")
+
+
+document.write("10.Changing the content with button ","<br>");
+function changesentence()
+{
+   var ele= document.getElementById("change");
+   ele.innerHTML="LNCT is in Bhopal";  
+   ele.style.color="red";
+   ele.style.background="blue";
+
+   document.body.style.backgroundColor="grey";
+}
+
+document.write("<br>","THE END  ","<br>");
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+// CODE FOR THE JAVASCRIPT : TO BE EXECUTED HERE  For Online compiler.
+
+_________________________________________________________________
+Program 1 :
+
+
+var number= prompt('Please enter a number ');
+var fact=1;
+document.open();                  //Optional to remove the content of the previous resutl.
+
+
+function factorial(n)
+{
+  // base condition 
+  if(n>number) {return ;}
+  
+  fact=fact * n  ;
+  n++;
+  factorial(n);
+}
+
+factorial(1);
+
+document.write(`The number ${number} factorial is ${fact} `);
+document.write("<br>");
+document.write("Program is complete ... ");
+
+console.log(`The number ${number} factorial is ${fact} `);
+
+_______________________________________________________________
+Program 2 :
+
+var name= prompt("Enter the name ");
+var age= prompt("Enter the age ");    // var age= parseInt(prompt("Enter you age"));
+var phone= prompt("Eneter the mob no");
+var salary= prompt("Enter the full salary");
+
+printdetails();
+
+function printdetails()
+{
+//TO print on console     -->Inspect -> sources --> snipperts 
+  console.log(`The person : ${name} with Age :  ${age}  and the contact ${phone} with salary amount of  ${salary} is a brillant student.`);
+// TO print on screen 
+  document.write(`The person : ${name} with Age :  ${age}  and the contact ${phone} with salary amount of  ${salary} is a brillant student.`);
+}
+
+
+*/
+
+
+
+
+
