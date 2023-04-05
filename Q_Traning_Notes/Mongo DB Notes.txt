@@ -1,0 +1,184 @@
+Version should be 5.0. of MongoDB   
+
+*We have used the online Mongo DB in Flask To Do APp project . And its link can be found on  MongoDB online acccount . And we have used the Compass Mongo App to connect with it. And we have enabled the request from all the ports to the mongo db database.
+
+-Make sure to create the data folder in c drive and the db folder inside it . Workspace for the mongodb
+Downloading offline Mongo DB :
+1.Google MongoDB downlaod : Open MongoDB community download . ANd install msi setup (500 MB)
+2.Install it .
+3.Create a folder named "data" in C drive  and then a folder "db" inside , This is place where MongoDB store the data locally.
+4.Now go inside the Program Files and open up the Mongo DB . Then in bin folder we have two important files 
+   mongos.exe(client where we type commnads) 
+   and mongod.exe (server)
+WE CAN RUN THE MONGO DB Files from anywhere in computer if path is set to environement variable.
+
+5.Just start the cmd in the bin folder . 
+
+-->  Start the  mongod file (start server) from cmd:
+=> mongod
+-Can see the port number : 27017
+
+--> Open the new cmd and start the client file mongos
+=> BUt in updated version 6 ,its not present. 
+
+6.Since new version of Mongo DB do not have the mongo.exe file . 
+  So we need to install the mongosh for the new shell to execute the operations related to db. (https://www.mongodb.com/try/download/shell)
+  (Also download the mongo DB compass App  and create the new connection in it . Now copy the connection string and paste it in mongosh shell/cmd to start the connection. )
+
+-I have downloaded the Mongo Compass App  explicitly form Google.
+-I have downloaded the Mongosh shell inside the  bin folder explicitly. And also copied the mongosh file back to the bin folder of mongoDb where other mongod , monogs files are present.
+
+
+7.Set the path of the bin folder in the environment varaible and then open the cmd from anywhere and can access the mongod and mongosh files direclty.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+SOME COMMAND to work with the MongoDB
+
+Mongo Db Commands:  Code with Durgesh Video :  (Install the Mongodb from website 250MB , set the path of bin in env variable  , now create a data folder in C drive  ,and data folder inside it )
+1.show dbs
+2.use prod   (name of new database )
+3.db
+4.db.createCollection('prod')
+5.show collections
+6.db.users.insert( {name: 'shivam' ,age : 23 })     //Will create the user collection itself and then insert the document in it.
+7.db.users.drop()                                    //To drop the collection users(like table in RDMS ) from the database
+  show collections
+8.db.dropDatabase()
+  show dbs
+
+9.CRUD Operations: d
+//Making the library management system database. lib and then creating the collections books inside it.
+-use lib
+-db
+-db.createCollection('books')
+-show collections
+
+=>Create Object  (Make a mongo.js file in Vs Code  and make the js object  for better understanding)
+
+-insert   (old in 3.2 version)
+
+-insertOne    -single object
+
+-insertMany   -multiply array
+
+
+
+-------
+
+db.books.insert(  {                     //Depriciated Function , so dont use it  , use insertOne , insertMany
+name:'Complete Java Course',
+pages:500,
+price:100
+}
+)
+
+-db.books.find()
+______________________________________
+-db.books.insertOne ( {name='Shivam' , pages:200 , price:200} )
+-db.books.insertMany (  [ {name='Book1' , pages:100 , price:20} , {name='Book2' , pages:300 , price:400}   ]  )
+-db.books.find()
+
+------ Here no issue of pre-defined schemea, we can add more field to same object.
+
+db.books.insertOne( {name='Book1' , pages:100 , price:20 , authors:['Shivam','Shantanu'] } )                 //Here authors array is also added.
+db.books.find()
+________________________________________________________
+
+
+2.Update Operations : 
+
+update
+updateOne
+updateMany
+
+db.books.update(
+
+{ _id: ObjectUd("646f4sd6f4sd6f4sdfsdfsdf")},
+
+{  name: 'The new updated Book ' , pages : 500  , price : 800 }
+
+)	
+
+-db.books.find()
+___________________________________________
+
+-db.books.updateOne( { _id:'5464sdf4sd6f4' }  ,  { $set:{ name:'New use of set operator to update One ' , page:500 , price:200  } }  )
+-db.books.find()
+
+Refer Google for more update set functions (like set , increment ,  etc)
+-db.books.update( { _id:'asdfasd4f85'}  , { $rename:{ 'price' : 'current price' } } )
+-db.books.find()
+_____________________
+
+//I need to do like this in mongosh
+
+________
+
+Deleteing the data
+
+remove
+deleteOne
+deleteMany
+
+db.books.deleteOne( {_id : 'asdfasdf96a446df'} )    // But in my case in mongosh , I need to provide full Object Id to you.
+
+
+_____________________________________________
+
+Selecting the data
+
+-db.books.find()
+-db.books.find().pretty()
+-db.books.find().limit(2)
+-db.books.find().sort(  {price: 1 } ).pretty()          //ascending order ,   // -1 descending order
+
+-db.books.find().limit(3).sort(  {name : -1 } ).pretty()       //descending order of names.
+
+Google More : Query operators (Comparision , Logical Operators  ) eg   $gt , $gte , $in $where etc
+
+______________________________
+To fetch object have price = 900 
+
+db.books.find( {price : { $eq:900 }    }) 
+
+db.books.find ( {price : { $in:[300,900] }} )
+
+
+__________________________________________
+
+ / Complex Quries: 
+
+//Fetching books that matches any of this criteria
+db.books.find( $or: [ {price:200} ,{pages:400} ,{ name:'Shivam'}  ]   )
+
+//Fetching books that dont have price greater than 55 
+db.books.find( {price : { $not:{ $gt : 55  }  }  } )
+
+____________________________________
+
+
+Projections - show only specific field 
+
+db.books.find({price:55} , {name:1} )                    // Output contins     {  "_id" : ObjectId("asdfsf5454") , "name": "This is good" }      //But if we dont need id , just pass _id False (as 0
+db.book)s.find( {price: 55} , {name:1 , _id:0} )
+db.books.find( {price : 55 } , {name:0   , _id=1 } )    //only output Object  id
+
+
+db.books.find().count() 
+
+
+Can use Compass - Connect directly.
+
+
+___________________________________________________________________________________________________________-----
+
+
+
+
+
+
+
+
+
+

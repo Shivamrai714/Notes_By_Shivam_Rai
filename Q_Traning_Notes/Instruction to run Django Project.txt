@@ -1,0 +1,49 @@
+
+STEPS : To Run anyones django project.
+
+-Make sure python is installed and vs Code Editor we need.
+-Open the downloaded folder .Create virtual environment, activate it , migrate the changes in project , run the project , create the database superuser (localhost/admin) , Enjoy your app. If the create virtual environment does not work from terminal . Just use the Command pattlet and create from there. And Also open new terminal from there. (a folder will be created venv)
+
+Steps :
+
+
+
+
+-open Powershell and install virtual environment
+
+pip install virtualenv
+virtualenv venv
+
+cd venv
+cd Scripts
+activate
+
+//come back to Todo-main folder  - make sure  (venv)  is activated.
+
+pip install django==3.1.2
+
+//To run the app.
+python manage.py runserver
+
+// Now Stop the project using Ctrl + C . And go back to terminal 
+// To reflect the changes of downloaded project in our virtual environment.
+python manage.py migrate 
+
+_____________________________
+
+ADMIN DATABASE PANNEL 
+
+http://127.0.0.1:8000/admin
+
+//Now create the superuser to see database of Django
+
+python manage.py createsuperuser  
+username : root
+password : root
+press y to confirm
+
+
+Now run the project. 
+python manage.py runserver
+
+Now create the Normal User and And logIn to access the portal

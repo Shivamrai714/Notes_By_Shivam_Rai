@@ -1,0 +1,95 @@
+_____________________________________________________
+-- How to run this project.
+-Just delete the .venv folder from the project and create your own virtual environment with below features.
+-Open commad pallet ( Ctrl + Shift + P )
+-Create Virtual Environment 
+-Now crate the new terminal from same command pallet box , search "new Terminal" in current workspace (.venv)
+-Now follow the below commands. 
+ pip install flask
+ pymongo[srv]
+ flask run
+_____________________________________
+-How restart the project after closing the project folder from the editor VS Code.
+Just open the terminal , now activate the environment by below command.  Then go back to project folder and do flask run.
+=> cd .\.venv\Scripts
+=> .\activate.ps1
+
+cd..
+cd..
+=> flask run
+
+______________________________________________________________________
+
+- To work with mongodb Database. 
+- Just go to  google mongo db and signin with google. (Login to Mongo DB account at mongodb.com) Make sure to remember username and password   for 1 time 'root' creation of 'shivamrai714714' user. It need to be put in code while making connections to db.
+-DATABASES TAb : click on it  , then click  connect  
+-The Click on Connect with MongoDB Compass.
+-Download the app for the Windows.
+-Copy the url of connection string.  
+
+-now open the compass app.
+-create a new Database by clicking +  button  available.
+-Now u can create inside it more instance of databases  to store data for other objects as well .
+-Now if error comes in accessing/ creating.Just go to online account of mongodb and then go to NETWORK ACCESS tab and add another IP address which allow all the ports access . ie port  0.0.0.0/0
+-Create more collections/instance inside the database like password and todos inside the main 'usernameandpassword' database to store them.
+
+-All the data saved can be viewed here easily . In the main database  'usernameandpassword' crated by us.
+
+-Now go to the Project app.py file to coonect the database with online mongodb server.
+
+-Now just use the uri copied from the website while downloading the compass app.
+mongo_uri = "mongodb+srv://shivamrai714714:" + urllib.parse.quote("root") + "@cluster0.j7dwyaj.mongodb.net/test"
+
+Just use this syntax to give your username and password.and connect to the database using below code.
+
+client = MongoClient(mongo_uri)
+app.db = client.usernameandpassword
+
+
+_____________________________________
+
+Now to Run the project. 
+1.Open the vs code , Drag drop the folder project.
+2.Delete the previous .venv folder.
+3.Create new environment and install the required components.  extra Open terminal (Ctrl + ` )
+4.Open command pallet (CTRL +SHIFT + P) . Create new virtual environment (.venv) . Now Open new terminal with current active workspace.
+5.Install the flask  : pip install flask
+6.Now error come due to pymongo not present so install it : pip install  pymongo[srv]
+7.Now start the project  : flask fun
+8.Open the link and project is live.
+(If first time user crate a user from the Compass app . Like root )Otherwise user the Register new user button.
+
+
+All data will be updated and can be seen in the instances/collections crated in the mongoDB
+
+
+________________________________________HENCE  DONE _________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

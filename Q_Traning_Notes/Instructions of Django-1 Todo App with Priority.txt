@@ -1,0 +1,67 @@
+JUST follow me :
+-Just delete the .venv folder and create new environment using command pallent , then open new terminal in active workspace .
+-then install django with give version , then migrate changes in db ...python manage.py migrate  ,  the make the superuser to access the db , and run the project.
+
+
+Follow the commmand from the initally and then just also do the mirgate command to reflect changes in our computer.
+
+STEPS : To Run anyones django project.
+
+-Make sure python is installed and vs Code Editor we need.
+-Open the downloaded folder .Create virtual environment, activate it , migrate the changes in project , run the project , create the database superuser (localhost/admin) , Enjoy your app. If the create virtual environment does not work from terminal . Just use the Command pattlet and create from there. And Also open new terminal from there. (a folder will be created venv)
+
+Steps :
+
+
+
+
+-open Terminal in VSCode(ctrl+`) in current project "TODO-main" 
+STEP :1
+(either create virtual env from command pallet (ctrl + Shift + P ) and then open up new terminal from there.)
+or
+(
+pip install virtualenv
+virtualenv venv
+
+cd venv
+cd Scripts
+.\activate.ps1
+
+)
+
+//come back to Todo-main folder  - make sure  (venv)  is activated.
+
+STEP2:
+pip install django==3.1.2
+
+STEP3: To run the app.
+python manage.py runserver
+
+// Now Stop the project using Ctrl + C . And go back to terminal 
+// To reflect the changes of downloaded project in our virtual environment.
+python manage.py migrate 
+
+_____________________________
+STEP :4
+ADMIN DATABASE PANNEL 
+
+http://127.0.0.1:8000/admin
+
+//Now create the superuser to see database of Django
+
+STEP :5
+python manage.py createsuperuser  
+username : root
+password : root
+press y to confirm
+
+
+Now run the project. 
+python manage.py runserver
+
+Now create the Normal User and And logIn to access the portal
+
+
+
+
+

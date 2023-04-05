@@ -1,0 +1,34 @@
+Python - Flask Tutorial Blog apll :: DONE THIS PROJECT IN PYCHARM IDE
+
+1.Installed IDE PyCharm
+2.Install flask from powershell.     pip install flask                / Or using Pycharm then write import flask , it will give suggestion to install flask.
+3.Write the code for flask from the their website. and run it using app.run()
+
+ from flask import  Flask
+app=Flask(__name__)
+
+@app.route("/")                   #this is the end point created
+def hello():
+    return "Hello World"
+
+app.run(debug=True)
+
+4. We can create the static(public to users) folder and template(private) folder like this. 
+
+5. Now we need to download the template of the BLOG app from  start- bootstrap file.(Google)
+
+
+
+
+Vs code : 
+
+1 . Drag drop to vs code.
+2. Terminal open
+3. Python extension install it. 
+   CTRL + Shift  + P (Command pallent )
+   Searrch python create environment venv
+  Open new command pallet and open new terminal
+4 Install flask :  python -m pip install flask
+5.For database instance working :   pip install flask-sqlalchemy
+6.Start project       : flask run
+7.Open the link with Ctrl + click to view in browser.
